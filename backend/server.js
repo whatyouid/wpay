@@ -20,9 +20,7 @@ app.use(bodyparser());
 app.use(json());
 
 app
-    .use(cors({
-        origin: true
-    }))
+    .use(cors())
     .use(router.routes())
     .use(router.allowedMethods());
 
