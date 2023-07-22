@@ -15,7 +15,7 @@ window["jQuery"] = $;
 
 const Beli = ({ paymentProcessor, dai }) => {
 
-    const API_URL = 'https://wpay-api.vercel.app/';
+    const API_URL = 'https://wpay-api.vercel.app';
 
     const url = 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr'
     const [usdtPrice] = useGlobalState('usdtPrice')
