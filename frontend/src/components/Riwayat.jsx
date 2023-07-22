@@ -6,8 +6,8 @@ import {connectWallet, getCurrentWalletConnected, addWalletListener, Price } fro
 
 const Riwayat = () => {
 
-    // const API_URL = 'https://wpay-api.vercel.app/';
-    const API_URL = 'http://localhost:4000';
+    const API_URL = 'https://wpay-api.vercel.app/';
+    // const API_URL = 'http://localhost:4000';
 
     const [dataHistory, setDataHistory] = useState([])
 
