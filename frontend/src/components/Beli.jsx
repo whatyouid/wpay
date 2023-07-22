@@ -6,6 +6,12 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import copyClipboard from '../assets/copy.png'
 import {CopyToClipboard} from "react-copy-to-clipboard";
+import * as $ from 'jquery'
+import 'jquery-ui-dist/jquery-ui'
+import 'bootstrap';
+
+window["$"] = $;
+window["jQuery"] = $;
 
 const Beli = ({ paymentProcessor, dai }) => {
     const url = 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr'
@@ -21,7 +27,8 @@ const Beli = ({ paymentProcessor, dai }) => {
     const [connectedAccount] = useGlobalState('connectedAccount')
     const [transactionId, setTransactionId] = useState(0);
     const navigate = useNavigate();
-    const [isLoading, setIsloading] = useState('false')
+    const [isLoading, setIsloading] = useState('false');
+    const [valid, setValid] = useState(false);
     
 
     const handleChange = (e, param1) => {
@@ -34,7 +41,7 @@ const Beli = ({ paymentProcessor, dai }) => {
         } else if (param1 === "crypto") {
             setJmlcrypto(e.target.value);
             setJmlidr(Math.round((e.target.value * usdtPrice) + 5000))
-        }
+        } 
 
     }
 
@@ -69,9 +76,22 @@ const Beli = ({ paymentProcessor, dai }) => {
         };
     }, []);
 
-
+    function validation() {
+        if(jmlIdr === ''){
+            Swal.fire({
+                    title: "Info!",
+                    text: "Masukan jumlah pembelian!",
+                    icon: "warning",
+                    allowOutsideClick: false,
+            })
+        }else{
+            $('#modalBeli').modal('show');
+            beli()
+        }
+    }
 
     const beli = async (e) => {
+
         const getTransactionID = await axios.get(`${API_URL}/api/id-transaction/beli/${connectedAccount}/${jmlCrypto}/${jmlIdr}`);
         console.log(getTransactionID);
         setTransactionId(getTransactionID.data.id_transaction);
@@ -184,6 +204,7 @@ const Beli = ({ paymentProcessor, dai }) => {
 
     const batal = async () => {
         const prosesBatal = await axios.post(`${API_URL}/api/batal/${transactionId}`);
+        setValid("false");
     }
 
     return (
@@ -202,7 +223,8 @@ const Beli = ({ paymentProcessor, dai }) => {
                                             {/* Crypto */}
                                             <div className="input-group mb-3">
                                                 <input type="text" className="form-control" value={jmlIdr}
-                                                    onChange={e => handleChange(e, "fiat")} placeholder="Masukan jumlah rupiah" />
+                                                    onChange={e => handleChange(e, "fiat")} placeholder="Masukan jumlah rupiah" required/>
+
                                             </div>
                                         </div>
 
@@ -211,7 +233,7 @@ const Beli = ({ paymentProcessor, dai }) => {
                                             {/* Crypto */}
                                             <div className="input-group">
                                                 <input type="text" className="form-control" value={jmlCrypto}
-                                                    onChange={e => handleChange(e, "crypto")} placeholder="Masukan jumlah crypto" />
+                                                    onChange={e => handleChange(e, "crypto")} placeholder="Masukan jumlah crypto" required/>
                                                 <div className="input-group-btn">
                                                     <select
                                                         className="form-select rounded-start-0 border-start-0" onChange={(e) => setCrypto(e.target.value)}
@@ -246,20 +268,14 @@ const Beli = ({ paymentProcessor, dai }) => {
 
 
                                         <div className='d-grid mt-3'>
-                                            <button type="button" className="btn btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={(e) => beli()}>Beli</button>
-                                            {/* <button 
-                                                type="button" 
-                                                className="btn btn-primary rounded-pill"
-                                                onClick={() => jual()}
-                                            >
-                                                Jual
-                                            </button> */}
+                                            {connectedAccount === '' ? 
+                                            <button disabled type="button" className="btn btn-success rounded-pill"   onClick={(e) => validation()} >Beli</button> 
+                                            : 
+                                            <button type="button" className="btn btn-success rounded-pill" onClick={(e) => validation()} >Beli</button>}
                                         </div>
 
                                     </form>
                                 </div>
-
-
 
                                 <div className="col-md">
                                     <div className="row p-3">
@@ -275,8 +291,10 @@ const Beli = ({ paymentProcessor, dai }) => {
                     </div>
                 </div>
             </div>
+
+            
             {/* Modal */}
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" id="modalBeli"  data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -291,7 +309,7 @@ const Beli = ({ paymentProcessor, dai }) => {
                                 </div>
                                 <div className="row border-bottom py-2">
                                     <div className="col">Jumlah crypto</div>
-                                    <div className="col">: {jmlCrypto} USDT</div>
+                                    <div className="col">: {jmlCrypto} {crypto}</div>
                                 </div>
                                 <div className="row border-bottom py-2">
                                     <div className="col">Jumlah rupiah</div>
@@ -330,7 +348,9 @@ const Beli = ({ paymentProcessor, dai }) => {
                     </div>
                 </div>
             </div>
+            
         </section>
+        
     )
 }
 

@@ -16,7 +16,7 @@ const Header = () => {
         addWalletListener();
     },[]);
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow sticky-top">
             <div className="container">
                 <Link to="/" className="">
                     <img src={Logo} alt="Logo" className="logo"/>

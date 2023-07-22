@@ -4,6 +4,12 @@ import axios from "axios"
 import { ethers } from 'ethers'
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import * as $ from 'jquery'
+import 'jquery-ui-dist/jquery-ui'
+import 'bootstrap';
+
+window["$"] = $;
+window["jQuery"] = $;
 
 const Jual = ({ paymentProcessor, usdt }) => {
     const url = 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr'
@@ -61,8 +67,29 @@ const Jual = ({ paymentProcessor, usdt }) => {
     const [account, setAccount] = useState("");
     const [accountName, setAccountname] = useState("....");
 
-    //Bank name
+    //Validation
+    function validation() {
+        if(jmlIdr === ''){
+            Swal.fire({
+                    title: "Info!",
+                    text: "Masukan jumlah penjualan!",
+                    icon: "warning",
+                    allowOutsideClick: false,
+            })
+        }else if(account === ''){
+            Swal.fire({
+                    title: "Info!",
+                    text: "Masukan nomor rekening!",
+                    icon: "warning",
+                    allowOutsideClick: false,
+            })
+        }else{
+            $('#modalJual').modal('show');
+            checkAccount();
+        }
+    }
 
+    //Bank name
     const checkAccount = async (e) => {
         try {
             const response = await axios.post('http://localhost:4000/api/check-bank-account', {
@@ -238,15 +265,12 @@ const Jual = ({ paymentProcessor, usdt }) => {
 
 
                                         <div className='d-grid mt-3'>
-                                            <button type="button" className="btn btn-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => checkAccount()}>Jual</button>
-                                            {/* <button 
-                                                type="button" 
-                                                className="btn btn-primary rounded-pill"
-                                                onClick={() => jual()}
-                                            >
-                                                Jual
-                                            </button> */}
-                                        </div>
+                                            {connectedAccount === '' ? 
+                                            <button disabled type="button" className="btn btn-danger rounded-pill" onClick={() => validation()}>Jual</button>
+                                            :
+                                            <button type="button" className="btn btn-danger rounded-pill" onClick={() => validation()}>Jual</button>
+                                            }
+                                            </div>
 
                                     </form>
                                 </div>
@@ -268,7 +292,7 @@ const Jual = ({ paymentProcessor, usdt }) => {
             </div>
 
             {/* Modal */}
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" id="modalJual" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
