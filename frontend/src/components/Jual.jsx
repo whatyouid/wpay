@@ -44,8 +44,8 @@ const Jual = ({ paymentProcessor, usdt }) => {
 
 
     useEffect(() => {
-        async function getPrice() {
-            const price = await axios.get(url);
+        function getPrice() {
+            const price = axios.get(url);
             setGlobalState('usdtPrice', Math.round((price.data.tether.idr) * 99.5 / 100))
             console.log(price.data.tether.idr)
         }

@@ -15,9 +15,11 @@ const Riwayat = () => {
         try {
             const accounts = await window.ethereum.request({method: "eth_accounts"});
             const address = accounts[0];
-            const history = await axios.get(`${API_URL}/api/history/${address}`);
-            console.log(history)
-            setDataHistory(history.data);
+            const history = await axios.get(`${API_URL}/api/history/${address}`)
+                .then((res) => {
+                    console.log(history)
+                    setDataHistory(history.data);
+                });
         } catch {
             console.log("data tidak ditemukan");
         }
