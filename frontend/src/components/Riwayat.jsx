@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Swal from 'sweetalert2';
-import { useGlobalState } from '../store/index'
-import {connectWallet, getCurrentWalletConnected, addWalletListener, Price } from '../Blockchain'
+
+
 
 const Riwayat = () => {
 
@@ -20,7 +19,7 @@ const Riwayat = () => {
             setDataHistory(history.data);
 
         } catch {
-            console.log("data tidak ditemukan");
+            console.log("Tidak ada data transaksi");
         }
     }
 

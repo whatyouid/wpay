@@ -324,9 +324,7 @@ router.post('/api/batal/:idTransaction', async ctx => {
 app.use(bodyparser());
 app.use(json());
 
-app.use(cors({
-        origin: "https://wpay-iota.vercel.app"
-    }))
+app.use(cors())
 app.use(router.routes())
 app.use(router.allowedMethods());
 
