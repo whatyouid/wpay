@@ -14,13 +14,16 @@ window["$"] = $;
 window["jQuery"] = $;
 
 const Beli = ({ paymentProcessor, dai }) => {
+
+    const API_URL = 'https://wpay-api.vercel.app/';
+
     const url = 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr'
     const [usdtPrice] = useGlobalState('usdtPrice')
     const [crypto, setCrypto] = useState('USDT')
     const [jmlCrypto, setJmlcrypto] = useState('')
     const [jmlIdr, setJmlidr] = useState('')
     const biayaTrx = 5000
-    const API_URL = 'http://localhost:4000'
+    // const API_URL = 'http://localhost:4000'
     const [bankCode, setBankcode] = useState("014");
     const [bank, setBank] = useState("BCA");
     const [va, setVa] = useState([]);

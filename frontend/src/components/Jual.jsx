@@ -12,12 +12,15 @@ window["$"] = $;
 window["jQuery"] = $;
 
 const Jual = ({ paymentProcessor, usdt }) => {
+
+    const API_URL = 'https://wpay-api.vercel.app/';
+
     const url = 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr'
     const [usdtPrice] = useGlobalState('usdtPrice')
     const [jmlCrypto, setJmlcrypto] = useState('')
     const [jmlIdr, setJmlidr] = useState('')
     const biayaTrx = 5000
-    const API_URL = 'http://localhost:4000'
+    // const API_URL = 'http://localhost:4000'
     const [crypto, setCrypto] = useState('USDT')
     const [isLoading, setIsloading] = useState('false')
     const navigate = useNavigate();
@@ -92,7 +95,7 @@ const Jual = ({ paymentProcessor, usdt }) => {
     //Bank name
     const checkAccount = async (e) => {
         try {
-            const response = await axios.post('http://localhost:4000/api/check-bank-account', {
+            const response = await axios.post(`${API_URL}/api/check-bank-account`, {
                 "bank_code": bankCode,
                 "account_number": account
 
