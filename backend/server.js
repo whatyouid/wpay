@@ -12,7 +12,6 @@ const Provider = require('@truffle/hdwallet-provider');
 require('dotenv').config();
 
 
-
 const app = new Koa();
 const router = new Router();
 
@@ -25,14 +24,6 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-
-app.use(
-    proxy("/", {
-        target: "https://wpay-iota.vercel.app/",
-        changeOrigin: true,
-        logs: true,
-    })
-);
 
 app.listen(4000, () => {
     console.log('Server running on port 4000');

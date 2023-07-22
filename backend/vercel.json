@@ -9,7 +9,7 @@
     "routes": [
     { 
         "src": "/(.*)", 
-        "headers": { "Access-Control-Allow-Origin": "null" },
+        "headers": { "Access-Control-Allow-Origin": "https://wpay-iota.vercel.app/" },
         "dest": "/" 
     }
   ]
