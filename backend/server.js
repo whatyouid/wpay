@@ -325,7 +325,9 @@ app.use(bodyparser());
 app.use(json());
 
 app
-    .use(cors())
+    .use(cors({
+        origin: "https://wpay-iota.vercel.app"
+    }))
     .use(router.routes())
     .use(router.allowedMethods());
 
