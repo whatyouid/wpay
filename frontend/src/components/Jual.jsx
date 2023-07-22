@@ -44,8 +44,8 @@ const Jual = ({ paymentProcessor, usdt }) => {
 
 
     useEffect(() => {
-        function getPrice() {
-            const price = axios.get(url);
+        async function getPrice() {
+            const price = await axios.get(url);
             setGlobalState('usdtPrice', Math.round((price.data.tether.idr) * 99.5 / 100))
             console.log(price.data.tether.idr)
         }
@@ -64,6 +64,17 @@ const Jual = ({ paymentProcessor, usdt }) => {
     useEffect(() => {
         console.log(transactionId);
     }, [transactionId])
+
+
+    async function getRate() {
+        const price = await axios.get(url);
+        setGlobalState('usdtPrice', Math.round((price.data.tether.idr) * 99.5 / 100))
+        console.log(price.data.tether.idr)
+    }
+
+    useEffect(() => {
+        getRate();
+    }, [])
 
     const [bankCode, setBankcode] = useState("014");
     const [bankName, setBankname] = useState("Bank Central Asia (BCA)");
