@@ -15,8 +15,10 @@ const Riwayat = () => {
             const accounts = await window.ethereum.request({method: "eth_accounts"});
             const address = accounts[0];
             const history = await axios.get(`${API_URL}/api/history/${address}`)
-            console.log(history)
-            setDataHistory(history.data);
+                .then((res)=>{
+                    console.log(history)
+                    setDataHistory(history.data);
+                })
 
         } catch {
             console.log("Tidak ada data transaksi");
