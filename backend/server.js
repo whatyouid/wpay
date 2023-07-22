@@ -11,8 +11,27 @@ const {Web3} = require('web3');
 const Provider = require('@truffle/hdwallet-provider');
 require('dotenv').config();
 
+
+
 const app = new Koa();
 const router = new Router();
+
+//middlewares
+app.use(bodyparser());
+app.use(json());
+
+app
+    .use(cors())
+    .use(router.routes())
+    .use(router.allowedMethods());
+
+app.use(function(ctx) {
+    ctx.body = { status: 'OK' };
+});
+    
+app.listen(4000, () => {
+    console.log('Server running on port 4000');
+});
 
 const BASE_URL = 'https://api-stg.oyindonesia.com';
 
@@ -319,19 +338,6 @@ router.post('/api/batal/:idTransaction', async ctx => {
 
 //send Transaction
 
-
-//middlewares
-app.use(bodyparser());
-app.use(json());
-
-app
-    .use(cors())
-    .use(router.routes())
-    .use(router.allowedMethods());
-
-app.listen(4000, () => {
-    console.log('Server running on port 4000');
-});
 
 
 const buy = async (amount, paymentId, recipient) => {
