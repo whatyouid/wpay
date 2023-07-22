@@ -324,12 +324,11 @@ router.post('/api/batal/:idTransaction', async ctx => {
 app.use(bodyparser());
 app.use(json());
 
-app
-    .use(cors({
+app.use(cors({
         origin: "https://wpay-iota.vercel.app"
     }))
-    .use(router.routes())
-    .use(router.allowedMethods());
+app.use(router.routes())
+app.use(router.allowedMethods());
 
 app.listen(4000, () => {
     console.log('Server running on port 4000');
