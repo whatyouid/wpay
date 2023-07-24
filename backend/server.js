@@ -10,6 +10,7 @@ const Axios = require('axios');
 const {Web3} = require('web3');
 const Provider = require('@truffle/hdwallet-provider');
 require('dotenv').config();
+const port = process.env.PORT;
 
 
 const app = new Koa();
@@ -29,8 +30,9 @@ app
 //     ctx.send("Server is running");
 // })
 
-app.listen(4000, () => {
-    console.log('Server running on port 4000');
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
 
 const BASE_URL = 'https://api-stg.oyindonesia.com';
