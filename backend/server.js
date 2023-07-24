@@ -24,6 +24,8 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
+
+app.use(async ctx => ctx.body = "Server Running")
 app.listen(4000, () => {
     console.log('Server running on port 4000');
 });
