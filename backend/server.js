@@ -25,7 +25,10 @@ app
     .use(router.allowedMethods());
 
 
-app.use(async ctx => ctx.body = "Server Running")
+// app.use("/", (ctx, res, next) => {
+//     ctx.send("Server is running");
+// })
+
 app.listen(4000, () => {
     console.log('Server running on port 4000');
 });
@@ -65,6 +68,7 @@ function generateId () {
     return id_transaction;
 }
 
+router.get('/', async ctx => ctx.body = 'Server is running');
 //Generate ID Transaction
 router.get('/api/id-transaction/:category/:address/:jumlah_crypto/:jumlah_rupiah', async ctx => {
     const category = ctx.params.category;
